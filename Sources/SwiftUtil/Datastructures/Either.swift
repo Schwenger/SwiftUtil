@@ -36,7 +36,7 @@ public enum Either<A,B> {
     }
   }
   
-  public func successmap<C> (_ leftMap: (A) -> C) -> Either<C,B> {
+  public func leftmap<C> (_ leftMap: (A) -> C) -> Either<C,B> {
     switch self {
     case .Left(let item):
       return .Left(leftMap(item))
@@ -45,7 +45,7 @@ public enum Either<A,B> {
     }
   }
   
-  public func failmap<C> (_ rightMap: (B) -> C) -> Either<A,C> {
+  public func rightmap<C> (_ rightMap: (B) -> C) -> Either<A,C> {
     switch self {
     case .Left(let item):
       return .Left(item)
