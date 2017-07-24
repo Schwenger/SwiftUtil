@@ -32,33 +32,9 @@ public extension Array {
     }
     
     /*
-     Split the given sequence into a satisfying (`t`) and a non-satisfying (`f`) part and
-     returns both.
-     */
-    public func split(by pred: (Element) throws -> Bool) rethrows -> (t: [Element], f: [Element]) {
-        return try self.reduce((t: [], f: []), { (accu, current) in
-            if try pred(current) {
-                return (accu.t + [current], accu.f)
-            } else {
-                return (accu.t, accu.f + [current])
-            }
-        })
-    }
-    
-    /*
      Determines whether there exists at least one value satisfying the given predicate.
      */
     public func exists(_ pred: (Element) throws -> Bool) rethrows -> Bool {
         return try self.findFirst(satisfying: pred) != nil
-    }
-    
-    /*
-     Returns a dictionary mapping each available
-     */
-    public func classify<Kind>(by classify: (Element) throws -> Kind) rethrows -> [Kind:Element] {
-        // Override duplicates! Check in seq2dict!
-        // MultiMap maybe?
-        let values: [(Kind, Element)] = try self.map{ (try classify($0), $0) }
-        return seq2dict(tupleSeq: values)
     }
 }

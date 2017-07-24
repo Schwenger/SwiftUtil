@@ -9,7 +9,7 @@
 /// In any case, endeavours of recovery and processing can be performed.
 public enum Result<Captured>: Sequence, RepresentableAsOpt {
     case Success(value: Captured)
-    case Failure
+    case Failure(error: Error)
     
     public typealias Element = Captured
     
@@ -18,10 +18,11 @@ public enum Result<Captured>: Sequence, RepresentableAsOpt {
      Otherwise, the failure is hidden into a `.Failure`.
      */
     public static func trySomething(_ experiment: () throws -> Captured) -> Result<Captured> {
-        if let value = try? experiment() {
+        do {
+            let value = try experiment()
             return .Success(value: value)
-        } else {
-            return .Failure
+        } catch {
+            return .Failure(error: error)
         }
     }
     
@@ -29,14 +30,6 @@ public enum Result<Captured>: Sequence, RepresentableAsOpt {
         switch self {
             case .Success(let value): return value
             case .Failure: return nil
-        }
-    }
-    
-    private static func fromOpt(_ optVal: Captured?) -> Result<Captured> {
-        if let val = optVal {
-            return .Success(value: val)
-        } else {
-            return .Failure
         }
     }
     
@@ -74,8 +67,10 @@ public enum Result<Captured>: Sequence, RepresentableAsOpt {
      */
     public func map<Other>(_ f: @escaping (Captured) throws -> Other) -> Result<Other> {
         switch self {
-        case .Success(let value): return Result<Other>.fromOpt(try? f(value))
-        case .Failure: return Result<Other>.Failure
+        case .Success(let value):
+            return Result<Other>.trySomething{ try f(value) }
+        case .Failure(let error):
+            return Result<Other>.Failure(error: error)
         }
     }
     

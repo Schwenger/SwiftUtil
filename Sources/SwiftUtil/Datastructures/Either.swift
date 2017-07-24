@@ -9,7 +9,7 @@ public enum Either<A,B> {
   case Left(A)
   case Right(B)
     
-  public func getSuccess() -> A? {
+  public func getLeft() -> A? {
     switch self {
     case .Left(let item):
       return item
@@ -18,7 +18,7 @@ public enum Either<A,B> {
     }
   }
   
-  public func getFailure() -> B? {
+  public func getRight() -> B? {
     switch self {
     case .Left(_):
       return nil
@@ -27,48 +27,48 @@ public enum Either<A,B> {
     }
   }
   
-  public func map<C,D> (success s: (A) -> C, failure f: (B) -> D) -> Either<C,D> {
+  public func map<C,D> (left: (A) -> C, right: (B) -> D) -> Either<C,D> {
     switch self {
     case .Left(let item):
-      return .Left(s(item))
+      return .Left(left(item))
     case .Right(let item):
-      return .Right(f(item))
+      return .Right(right(item))
     }
   }
   
-  public func successmap<C> (_ s: (A) -> C) -> Either<C,B> {
+  public func successmap<C> (_ leftMap: (A) -> C) -> Either<C,B> {
     switch self {
     case .Left(let item):
-      return .Left(s(item))
+      return .Left(leftMap(item))
     case .Right(let item):
       return .Right(item)
     }
   }
   
-  public func failmap<C> (_ f: (B) -> C) -> Either<A,C> {
+  public func failmap<C> (_ rightMap: (B) -> C) -> Either<A,C> {
     switch self {
     case .Left(let item):
       return .Left(item)
     case .Right(let item):
-      return .Right(f(item))
+      return .Right(rightMap(item))
     }
   }
   
-  public func successflatmap<C> (_ s: (A) -> C) -> C? {
+  public func leftFlatMap<C> (_ leftMap: (A) -> C) -> C? {
     switch self {
     case .Left(let item):
-      return s(item)
+      return leftMap(item)
     case .Right(_):
       return nil
     }
   }
   
-  public func failflatmap<C> (_ f: (B) -> C) -> C? {
+  public func rightFlatMap<C> (_ rightMap: (B) -> C) -> C? {
     switch self {
     case .Left(_):
       return nil
     case .Right(let item):
-      return f(item)
+      return rightMap(item)
     }
   }
 }
