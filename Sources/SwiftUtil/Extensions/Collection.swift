@@ -24,4 +24,15 @@ public extension Collection {
             return Array(self.dropFirst())
         }
     }
+    
+    /*
+     Returns a dictionary mapping each available
+     */
+    public func classify<Kind>(by classify: (Element) throws -> Kind) rethrows -> [Kind:Element] {
+        // Override duplicates! Check in seq2dict!
+        // MultiMap maybe?
+        // TODO!!
+        let values: [(Kind, Element)] = try self.map{ (try classify($0), $0) }
+        return seq2dict(tupleSeq: values)
+    }
 }
