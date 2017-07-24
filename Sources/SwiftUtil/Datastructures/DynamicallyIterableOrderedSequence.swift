@@ -13,6 +13,7 @@ public typealias DIOS<T> = DynamicallyIterableOrderedSequence<T>
 /// already passed the index of the newly added values. The iteration and insertion
 /// indices are determined based on `<`.
 /// Each instance of this class can be iterated only once unless `resetIterator` is called.
+// TODO: A priority queue would be a sensible data structure for this.
 public struct DynamicallyIterableOrderedSequence<T>: Sequence, IteratorProtocol {
     
     public let less: (T,T) -> Bool

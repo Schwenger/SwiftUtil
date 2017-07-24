@@ -22,6 +22,7 @@ public func memoize<A:Hashable, R>(_ fn : @escaping (A) -> R) -> (A) -> R {
 }
 
 public func seq2dict<Key,Value>(tupleSeq: [(Key, Value)]) -> [Key:Value] {
+    // ☠ Overwrites duplicates silently!
     var res = [Key:Value]()
     tupleSeq.forEach{ res[$0.0] = $0.1 }
     return res
