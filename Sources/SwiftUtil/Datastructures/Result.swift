@@ -74,6 +74,13 @@ public enum Result<Captured>: Sequence, RepresentableAsOpt {
         }
     }
     
+    public func get() throws -> Captured {
+        switch self {
+        case .Success(let value): return value
+        case .Failure(let error): throw error
+        }
+    }
+    
 }
 
 // This seems unnecessarily clunky.
