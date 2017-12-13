@@ -5,11 +5,12 @@
 //  Created by Maximilian Schwenger on 21.06.17.
 //
 
-public enum Either<A,B> {
-  case Left(A)
-  case Right(B)
+public enum Either<L,R> {
+
+  case Left(L)
+  case Right(R)
     
-  public func getLeft() -> A? {
+  public func getLeft() -> L? {
     switch self {
     case .Left(let item):
       return item
@@ -18,7 +19,7 @@ public enum Either<A,B> {
     }
   }
   
-  public func getRight() -> B? {
+  public func getRight() -> R? {
     switch self {
     case .Left(_):
       return nil
@@ -27,7 +28,7 @@ public enum Either<A,B> {
     }
   }
   
-  public func map<C,D> (left: (A) -> C, right: (B) -> D) -> Either<C,D> {
+  public func map<C,D> (left: (L) -> C, right: (R) -> D) -> Either<C,D> {
     switch self {
     case .Left(let item):
       return .Left(left(item))
@@ -36,7 +37,7 @@ public enum Either<A,B> {
     }
   }
   
-  public func leftmap<C> (_ leftMap: (A) -> C) -> Either<C,B> {
+  public func leftmap<C> (_ leftMap: (L) -> C) -> Either<C,R> {
     switch self {
     case .Left(let item):
       return .Left(leftMap(item))
@@ -45,7 +46,7 @@ public enum Either<A,B> {
     }
   }
   
-  public func rightmap<C> (_ rightMap: (B) -> C) -> Either<A,C> {
+  public func rightmap<C> (_ rightMap: (R) -> C) -> Either<L,C> {
     switch self {
     case .Left(let item):
       return .Left(item)
@@ -54,7 +55,7 @@ public enum Either<A,B> {
     }
   }
   
-  public func leftFlatMap<C> (_ leftMap: (A) -> C) -> C? {
+  public func leftFlatMap<C> (_ leftMap: (L) -> C) -> C? {
     switch self {
     case .Left(let item):
       return leftMap(item)
@@ -63,7 +64,7 @@ public enum Either<A,B> {
     }
   }
   
-  public func rightFlatMap<C> (_ rightMap: (B) -> C) -> C? {
+  public func rightFlatMap<C> (_ rightMap: (R) -> C) -> C? {
     switch self {
     case .Left(_):
       return nil
