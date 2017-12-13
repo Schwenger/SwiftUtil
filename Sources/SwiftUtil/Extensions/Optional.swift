@@ -21,6 +21,22 @@ public extension Optional {
     }
 }
 
+public extension Optional where Wrapped: Numeric {
+   // All those functions also work for an unwrapped Numeric as left operand due to implicit conversion of Optionals.
+    static func +?(_ left: Optional<Wrapped>, right: Optional<Wrapped>) -> Optional<Wrapped> {
+        if left.empty || right.empty { return nil }
+        else { return left! + right! }
+    }
+    static func -?(_ left: Optional<Wrapped>, right: Optional<Wrapped>) -> Optional<Wrapped> {
+        if left.empty || right.empty { return nil }
+        else { return left! - right! }
+    }
+    static func *?(_ left: Optional<Wrapped>, right: Optional<Wrapped>) -> Optional<Wrapped> {
+        if left.empty || right.empty { return nil }
+        else { return left! * right! }
+    }
+}
+
 // Allows extending datastructures with associated optional type.
 // Thanks to https://stackoverflow.com/questions/33138712/function-arrayoptionalt-optionalarrayt
 public protocol OptionalType {
