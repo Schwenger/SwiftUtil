@@ -72,4 +72,17 @@ public enum Either<L,R> {
       return rightMap(item)
     }
   }
+
+
+
 }
+
+extension Either where L == R {
+  public var unwrapped: L {
+    switch self {
+    case .Left(let a): return a
+    case .Right(let a): return a
+    }
+  }
+}
+
