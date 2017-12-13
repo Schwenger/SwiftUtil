@@ -32,7 +32,6 @@ extension Optional: OptionalType {
     public var optional: Wrapped? { return self }
 }
 
-infix operator ==?: ComparisonPrecedence
 public func ==?<T: Equatable> (lhs: T?, rhs: T?) -> Bool {
     if let lhs = lhs, let rhs = rhs {
         return lhs == rhs

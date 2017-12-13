@@ -5,7 +5,6 @@
 //  Created by Maximilian Schwenger on 23.06.17.
 //
 
-prefix operator ☠
 public prefix func ☠(_ message: String = "") -> Never {
   fatalError(message)
 }
