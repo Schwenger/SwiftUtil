@@ -34,5 +34,36 @@ public extension Collection {
         // TODO!!
         let values: [(Kind, Element)] = try self.map{ (try classify($0), $0) }
         return seq2dict(tupleSeq: values)
+
+  /*
+   Finds the first `Element` and its index satisfying the given predicate or `nil` if none exits.
+   The respective `Element` and its Index are returned.
+   */
+  public func findFirst(satisfying pred: (Element) throws -> Bool) rethrows -> (element: Element, index: Index)? {
+    var ix = self.startIndex
+    for elem in self {
+      if try pred(elem) {
+        return (elem, ix)
+      }
+      ix = self.index(ix, offsetBy: 1)
     }
+    return nil
+  }
+
+  
+
+  /*
+   Determines whether there exists at least one value satisfying the given predicate.
+   */
+  public func exists(_ pred: (Element) throws -> Bool) rethrows -> Bool {
+    return try self.findFirst(satisfying: pred) != nil
+  }
+
+  /*
+   Determines whether all elements satisfy a given predicate.
+   */
+  public func forall(_ pred: (Element) throws -> Bool) rethrows -> Bool {
+    return try self.reduce(true, { (accu, element) in try accu && pred(element) })
+  }
+
 }
