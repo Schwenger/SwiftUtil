@@ -40,8 +40,6 @@ public extension Collection {
     return nil
   }
 
-  
-
   /*
    Determines whether there exists at least one value satisfying the given predicate.
    */
@@ -56,5 +54,10 @@ public extension Collection {
     return try self.reduce(true, { (accu, element) in try accu && pred(element) })
   }
 
+}
+
+extension Collection where Element == Bool {
+  public var and: Bool { return self.forall{ $0 } }
+  public var or: Bool { return self.exists{ $0 } }
 }
 
