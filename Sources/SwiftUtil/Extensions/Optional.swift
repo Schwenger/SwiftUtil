@@ -5,6 +5,12 @@
 //  Created by Maximilian Schwenger on 24.07.17.
 //
 
+infix operator +?: AdditionPrecedence
+infix operator -?: AdditionPrecedence
+infix operator *?: MultiplicationPrecedence
+infix operator /?: MultiplicationPrecedence
+infix operator ==?: ComparisonPrecedence
+
 public extension Optional {
     func getOrElse(_ gen: () -> Wrapped) -> Wrapped {
         switch self {
